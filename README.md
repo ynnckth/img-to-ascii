@@ -8,5 +8,8 @@ pip install Pillow
 ```
 
 Example:
+```
+python img_to_ascii.py image.jpg
+```
 
-![Alt text](screenshots/github-logo.png?raw=true)
+![Alt text](screenshots/cool.png?raw=true)
