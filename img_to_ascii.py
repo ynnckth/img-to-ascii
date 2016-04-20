@@ -3,10 +3,11 @@ from PIL import Image
 
 
 ASCII_CHARS = ['#', '@', '%', '*', '+', '-', '.', ' ']
+WIDTH = 200
 
 
 # resize an image keeping the original ratio
-def scale_image(img, new_width=100):
+def scale(img, new_width=WIDTH):
     (original_width, original_height) = img.size
     aspect_ratio = original_height/float(original_width)
     new_height = int(aspect_ratio * new_width)
@@ -26,16 +27,17 @@ def map_pixels_to_ascii_chars(img):
     return "".join(pixels_to_chars)
 
 
-def convert_image_to_ascii(img, new_width=100):
-    img = scale_image(img)
+def convert_to_ascii(img, width_chars=WIDTH):
+    img = scale(img)
     img = to_grayscale(img)
 
-    pixels_to_chars = map_pixels_to_ascii_chars(img)
+    img_data_ascii = map_pixels_to_ascii_chars(img)
 
-    image_ascii = [pixels_to_chars[index: index + new_width] for index in
-            xrange(0, len(pixels_to_chars), new_width)]
+    ascii_img = []
+    for i in xrange(0, len(img_data_ascii), width_chars):
+        ascii_img.append(img_data_ascii[i:i + width_chars])
 
-    return "\n".join(image_ascii)
+    return "\n".join(ascii_img)
 
 
 def main():
@@ -44,11 +46,11 @@ def main():
     try:
         image = Image.open(img_path)
     except Exception, e:
-        print "Unable to open image file {img_path}.".format(image_filepath=img_path)
+        print "Unable to open image file {file}.".format(file=img_path)
         print e
         return
 
-    print convert_image_to_ascii(image)
+    print convert_to_ascii(image)
 
 
 if __name__=='__main__':
